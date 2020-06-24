@@ -12,8 +12,6 @@
 
     > python manage.py init_db 
     
-    (this will create a 'posts' db with one sample post and a user 'Admin' with email 'me@test.com' and password '111111')
-
  5. Install necessary JavaScript packages
     > npm install
     
