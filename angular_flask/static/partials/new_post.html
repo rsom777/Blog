@@ -1,0 +1,38 @@
+<div ng-cloak layout="row" layout-align="center center">
+    <div flex="100" flex-gt-sm="80" flex-gt-lg="60">
+        <h3 class="page-heading">{{ heading }} Post</h3>
+        <md-content layout="row" layout-padding id="toast">
+            <form enctype='multipart/form-data' name="newPost" ng-submit="createPost(newPost, post)" novalidate>
+                <md-input-container class="md-block">
+                    <label for="title">Title</label>
+                    <input required name="title" placeholder="Your title" id="title" ng-model="post.title">
+                    <div ng-messages="newPost.title.$error">
+                        <div ng-message="required">Title is required.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <input id="uploadImage" aria-label="Upload-image" type="file" name="coverPic" class="ng-hide"
+                           onchange="angular.element(this).scope().setFile(this)" file-model="myFile">
+                    <md-button class="md-raised md-accent" ng-click="activateUpload()">Add cover image</md-button>
+                    <md-switch class="md-accent" id="enable-preview" ng-model="showPreview" aria-label="Enable preview">
+                        Enable preview
+                    </md-switch>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <div text-angular id="ta-body" name="body" ng-model="post.body" required></div>
+                </md-input-container>
+                <md-button class="md-raised md-accent" ng-disabled="!post.body"
+                           ng-click="createPost(newPost, post, true)" ng-hide="post.public">Publish</md-button>
+                <md-button type="submit" class="md-raised md-accent" ng-disabled="!post.body">{{ button }}</md-button>
+                <md-progress-circular md-mode="indeterminate" class="md-accent spinner"
+                                      ng-show="loading"></md-progress-circular>
+            </form>
+        </md-content>
+
+        <!--Post preview-->
+        <div ng-show="showPreview">
+            <h2 class="center page-heading">Preview</h2>
+            <post text="lg" post="post" image-src="imageSrc"></post>
+        </div>
+    </div>
+</div>

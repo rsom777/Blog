@@ -1,0 +1,70 @@
+<md-card>
+    <md-card-header>
+        <md-card-avatar>
+            <a href="/users/{{ post.author }}">
+                <img class="md-user-avatar" ng-src="{{ post.avatar }}">
+            </a>
+        </md-card-avatar>
+        <md-card-header-text>
+            <a href="/users/{{ post.author }}">
+                <span class="md-title">{{ post.author }}</span>
+            </a>
+            <span class="md-subheader abs">{{ post.date | localDate }}</span>
+        </md-card-header-text>
+
+        <!-- Share on social media FAB menu-->
+        <div ng-include="'static/partials/post-elements/social.html'"></div>
+
+        <!--Edit/delete menu-->
+        <post-menu></post-menu>
+
+    </md-card-header>
+
+    <!-- Post cover image and title -->
+    <a ng-href="{{ post.disabled ? '#' : '/posts/' + post.slug}}">
+        <div class="md-card-image image-{{ size }}"
+             ng-style="imageSrc && {'background-image':'url('+ imageSrc +')'} || {'background-image':'url(' + post.cover_photo + ')'}">
+
+            <span class="md-headline" ng-model="post.title">{{ post.title }}</span>
+        </div>
+    </a>
+
+    <!-- Favorite post and comment icons -->
+    <div ng-include="'static/partials/post-elements/actions.html'"></div>
+
+    <!-- Text of the post -->
+    <md-card-content>
+        <div class="body-text-{{ size }}" ta-bind ng-model="post.body">{{ post.body }}</div>
+    </md-card-content>
+
+    <!-- Comments -->
+    <md-card-content id="comments" class="comment-section" ng-if="!posts">
+        <h3 class="comment-section-title">Comments</h3>
+        <form name="commentForm" ng-submit="addComment(post, comment)">
+            <div layout="row">
+                <md-input-container class="md-block" flex>
+                    <label class="custom-label" for="add-comment">
+                        {{ post.comments.length ? "Join the" : "Start a "  }} discussion</label>
+                    <input type="text" id="add-comment" ng-model="comment" ng-disabled="post.disabled">
+                </md-input-container>
+
+                <md-button type="submit" class="md-icon-button md-primary" aria-label="Post comment"
+                           ng-disabled="!comment">
+                    <md-icon md-font-set="material-icons">done</md-icon>
+                </md-button>
+            </div>
+        </form>
+        <div class="comment" ng-repeat="comment in post.comments">
+            <div class="comment-header" layout="row">
+                <img class="md-user-avatar" ng-src="{{ comment.author_ava }}" alt="{{ comment.author }}">
+                <div class="md-subheader comment-author">
+                    <p>{{ comment.author }} <br/>
+                        {{ comment.date | localDate }}</p>
+                </div>
+            </div>
+            <div class="comment-text">
+                <p>{{ comment.body }}</p>
+            </div>
+        </div>
+    </md-card-content>
+</md-card>

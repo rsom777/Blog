@@ -1,0 +1,10 @@
+*.pyc
+venv
+*~
+.DS_Store
+ignore
+.idea
+/node_modules
+/data/posts.db
+todo.txt
+instance/config.py

@@ -1,0 +1,52 @@
+<div ng-cloak layout="row" layout-align="center">
+
+    <div layout="column" flex="100" flex-gt-md="50">
+
+        <h2 class="center page-heading">My posts</h2>
+
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab>
+                <md-tab-label>
+                    <span class="tab-heading">Public Posts</span>
+                </md-tab-label>
+                <md-tab-body>
+                    <div class="md-padding">
+                        <div ng-repeat="post in public = (posts| filter: {public: true})" class="md-padding"
+                             layout="row"
+                             layout-align="center center"
+                             layout-xs="column">
+                            <div layout="column">
+                                <post></post>
+                            </div>
+                        </div>
+                        <div ng-if="!public.length" layout-align="center center">
+                            <h3 class="page-heading">You don't have any public posts yet.</h3>
+                        </div>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+            <md-tab>
+                <md-tab-label>
+                    <span class="tab-heading">Drafts</span>
+                </md-tab-label>
+                <md-tab-body>
+                    <div class="md-padding">
+                        <div ng-repeat="post in drafts = (posts | filter:{public: false})" class="md-padding" layout="row"
+                             layout-align="center center"
+                             layout-xs="column">
+                            <div layout="column">
+                                <post></post>
+                            </div>
+                        </div>
+                        <div ng-if="!drafts.length" layout-align="center center">
+                            <h3 class="page-heading">You don't have any drafts yet.
+                                <br>
+                                <a href="/new">Start a post.</a>
+                            </h3>
+                        </div>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
+    </div>
+</div>

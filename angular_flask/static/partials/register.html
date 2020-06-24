@@ -1,0 +1,82 @@
+<div ng-cloak layout="row" layout-align="center start">
+
+    <!--Register form-->
+    <md-content layout-padding ng-if="!hasAccount" flex-xs="100" flex-sm="60" flex-md="50" flex-lg="40" flex-gt-lg="30">
+        <h1>Create an Account</h1>
+        <form enctype='multipart/form-data' name="userForm" novalidate ng-submit="register(userForm)">
+            <md-input-container class="md-block">
+                <label for="username">Username</label>
+                <input required name="username" id="username" ng-model="user.username" ng-change="changeUsername()">
+                <div ng-messages="userForm.username.$error">
+                    <div ng-message="required">Username is required.</div>
+                    <div ng-message="userExists">User already exists.</div>
+                </div>
+            </md-input-container>
+            <md-input-container class="md-block">
+                <label for="email">Email</label>
+                <input type="email" id="email" required name="email" ng-pattern="/^.+@.+\..+$/"
+                       ng-model="user.email" ng-change="changeEmail()">
+                <div ng-messages="userForm.email.$error">
+                    <div ng-message-exp="['pattern', 'required']">Enter a valid email address.</div>
+                    <div ng-message="emailExists">Email already exists.</div>
+                </div>
+            </md-input-container>
+            <md-input-container class="md-block">
+                <input type="file" class="ng-hide" id="uploadAva" name="ava" aria-label="upload avatar"
+                       onchange="angular.element(this).scope().setFile(this)" file-model="myAva">
+                <md-button class="md-raised md-accent" ng-click="activateUpload()">Upload image</md-button>
+                <img id="imgPreview" ng-src="{{ imageSrc }}" alt="Profile picture"/>
+            </md-input-container>
+            <md-input-container class="md-block">
+                <label for="password">Password</label>
+                <input type="password" id="password" ng-model="user.password" required name="password" ng-minlength="6">
+                <div ng-messages="userForm.password.$error" role="alert">
+                    <div ng-message-exp="['required', 'minlength']">Password is required and should be at least 6
+                        characters long.
+                    </div>
+                </div>
+            </md-input-container>
+            <md-input-container class="md-block" id="toast" >
+                <label for="password2">Password (again)</label>
+                <input type="password" id="password2" name="confirmPassword" match-password="password"
+                       ng-model="confirmPassword">
+                <div ng-messages="userForm.confirmPassword.$error">
+                    <div ng-message="passwordMatch">Your passwords did not match</div>
+                </div>
+            </md-input-container>
+            <md-button type="submit" class="md-raised md-accent">Register</md-button>
+            <md-progress-circular md-mode="indeterminate" class="md-accent spinner"
+                                  ng-show="loading"></md-progress-circular>
+        </form>
+        <p>If you already have an account <a href="#" ng-click="changeForm()">Sign in</a></p>
+    </md-content>
+
+    <!--Sign In form-->
+    <md-content layout-padding ng-if="hasAccount" flex-xs="100" flex-sm="60" flex-md="50" flex-lg="40" flex-gt-lg="30">
+        <h1>Sign in</h1>
+        <form name="loginForm" novalidate ng-submit="login(loginForm)">
+            <md-input-container class="md-block">
+                <label for="username">Username</label>
+                <input required name="username" id="username" ng-model="user.username" ng-change="changeUsername()">
+                <div ng-messages="loginForm.username.$error">
+                    <div ng-message="required">Username is required.</div>
+                    <div ng-message="userExists">Username not found.</div>
+                </div>
+            </md-input-container>
+            <md-input-container class="md-block">
+                <label for="password">Password</label>
+                <input required type="password" name="password" id="password" ng-model="user.password"
+                       ng-change="changePassword()">
+                <div ng-messages="loginForm.password.$error">
+                    <div ng-message="required">Password is required.</div>
+                    <div ng-message="passwordIncorrect">Incorrect password.</div>
+                </div>
+            </md-input-container>
+            <md-button type="submit" class="md-raised md-accent">Log In</md-button>
+            <md-progress-circular md-mode="indeterminate" class="md-accent spinner"
+                                  ng-show="loading"></md-progress-circular>
+        </form>
+        <p>Don't have an account? <a href="#" ng-click="changeForm()">Register</a></p>
+
+    </md-content>
+</div>

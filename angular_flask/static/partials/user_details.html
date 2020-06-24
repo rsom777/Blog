@@ -1,0 +1,64 @@
+<div layout="row" layout-align="center" ng-cloak>
+
+    <div layout="row" flex="100" flex-gt-md="40" style="display: inline" ng-show="user.username">
+        <div layout="row" layout-align="end end">
+            <h1 class="tab-heading">{{ user.username }}
+                <p ng-show="user.name">
+                    <small>({{ user.name }})</small>
+                </p>
+            </h1>
+            <img id="profile-ava" ng-src="{{ user.avatar }}">
+        </div>
+
+        <p style="color: #fff;">  {{ user.bio }}</p>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab>
+                <md-tab-label>
+                    <span class="tab-heading">Posts</span>
+
+                </md-tab-label>
+                <md-tab-body>
+                    <div class="md-padding">
+                        <h2 class="tab-heading">Posts by {{ user.username }}</h2>
+                        <div ng-if="!posts.length" layout-align="center center">
+                            <h3 class="page-heading">{{ user.username }} hasn't published any posts yet.</h3>
+                        </div>
+
+                        <div ng-repeat="post in posts | filter: {public: true}" class="md-padding" layout="row"
+                             layout-wrap=""
+                             layout-align="center center"
+                             layout-xs="column">
+                            <div layout="column">
+                                <post></post>
+                            </div>
+                        </div>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+            <md-tab>
+                <md-tab-label>
+                    <span class="tab-heading">Favorites</span>
+                </md-tab-label>
+                <md-tab-body>
+                    <div class="md-padding">
+                        <h2 class="tab-heading">Favorited by {{ user.username }}</h2>
+                        <div ng-if="!user.favs.length" layout-align="center center">
+                            <h3 class="page-heading">{{ user.username }} doesn't have any favorite posts yet.</h3>
+                        </div>
+                        <div ng-repeat="post in user.favs | filter: {public: true}" class="md-padding" layout="row"
+                             layout-wrap=""
+                             layout-align="center center"
+                             layout-xs="column">
+                            <div layout="column">
+                                <post></post>
+                            </div>
+                        </div>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
+    </div>
+    <div ng-show="!user.username" ng-cloak>
+        <h1 class="page-heading">No user found with such username.</h1>
+    </div>
+</div>
